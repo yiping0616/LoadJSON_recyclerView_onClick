@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDBHelper extends SQLiteOpenHelper {
 
-    //SQLiteOpenHelper 的 Singleton（單獨） 設計
+    //SQLiteOpenHelper 的 Singleton（單獨）設計
     //以免多個Activity同時存取SQLiteDatabase物件 , 造成鎖住Database之問題
     //將MyDBHelper設定為單一物件 利用static特性 , 確保整個App使用同一個MyDBHelper物件
     private static MyDBHelper instance ;    //MyDBHelper類別中新增一個封閉的static類別變數
@@ -18,13 +18,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
         }
         return instance;
     }
-
-
-    //實作建構子 constructor , 因有做Singleton , 要設為private ,只會在此class中呼叫 MyDBHelper()
+    //實作建構子 constructor , 因有做Singleton , 要設為private ,只有在此class中建立新的MyDBHelper會呼叫MyDBHelper()
     private MyDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //用db物件中的 execSQL()方法建立 exp 表格
@@ -37,7 +34,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 "introduction TEXT ,"+
                 "image BLOB )");
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

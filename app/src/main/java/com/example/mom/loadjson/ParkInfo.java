@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParkInfo {
+    //SerializedName裡面的是 Json Object中的Key
+    //private String 就是對應到的變數
     @SerializedName("_id")
     private String _id;
 
@@ -34,18 +36,20 @@ public class ParkInfo {
     @SerializedName("Introduction")
     private String introduction;
 
+    //public static 在 MainActivity中 可以直接使用 ParkInfo.fromJsonString()
+    //回傳值為ArrayList<ParkInfo> 輸入值為 從url讀取到的String
     public static ArrayList<ParkInfo> fromJsonString(String json) {
         ArrayList<ParkInfo> detailData = null;
         if (json == null) return null;
 
         try {
-            JSONObject rootJObj = new JSONObject(json);
-            JSONObject usefulJObj = rootJObj.getJSONObject("result");
-            String jsonArr = usefulJObj.getJSONArray("results").toString();
+            JSONObject rootJObj = new JSONObject(json);     //整個String json是一個JSON Object
+            JSONObject usefulJObj = rootJObj.getJSONObject("result");   //取Object裡面 key:"result"的JSON Object
+            String jsonArr = usefulJObj.getJSONArray("results").toString();  //取Object裡面 key:"results"的JSON Array  並轉成String
 
-            Type listType = new TypeToken< ArrayList< ParkInfo>>() { }.getType();
+            Type listType = new TypeToken< ArrayList< ParkInfo>>() { }.getType();  //宣告String要轉乘的資料型態 ArrayList< ParkInfo>(裡面是放ParkInfo)
             Gson gson = new Gson();
-            detailData = gson.fromJson( jsonArr , listType);
+            detailData = gson.fromJson( jsonArr , listType);  //gson.fromJson(要轉換的String json , 轉換成的型態)
 
         } catch (JSONException e) {
             e.printStackTrace();
